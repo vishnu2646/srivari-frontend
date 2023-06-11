@@ -144,7 +144,7 @@ export const Contact = () => {
                         </div>
                     </div>
                     <div className="contact-page-address">
-                        QV75+36 Srivari Suvarna Subikhaa Homes, Marasandiram, Hosur, <br/>Tamil Nadu - 635109
+                        QV75+36 Srivari Suvarna Subiskhaa Homes, Marasandiram, Hosur, <br/>Tamil Nadu - 635109
                     </div>
                 </div>
                 <div className="contact-page-right-content">

@@ -45,7 +45,7 @@ export const About = () => {
                             </iframe>
                             <div className="address">
                                 <img src={location} alt="location" />
-                                <p>QV75+36 Srivari Suvarna Subikhaa Homes, Marasandiram, Tamil Nadu 635109</p>
+                                <p>QV75+36 Srivari Suvarna Subikshaa Homes, Marasandiram, Tamil Nadu 635109</p>
                             </div>
                         </div>
                     </div>
