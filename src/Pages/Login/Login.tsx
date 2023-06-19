@@ -62,6 +62,10 @@ export const Login = ({looged, setLogged}) => {
                             id="password" 
                             placeholder="Enter Password"
                             onChange={e => handleChange(e)}
+                            style={{
+                                fontFamily: 'caption',
+                                fontSize: '16px'
+                            }}
                         />
                     </div>
                     <a href="/signup" className="signup">create a new account</a>
