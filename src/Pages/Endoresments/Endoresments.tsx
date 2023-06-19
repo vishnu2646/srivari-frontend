@@ -11,13 +11,18 @@ export const Endoresments = () => {
     const [endoresment, setEndoresment] = useState<Endorement[]>([]);
 
     const fetchEndoresment = async () => {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/endoresment-list/`)
-        const data = await response.data
-        setEndoresment(data);
+        await axios.get(`${process.env.REACT_APP_BASE_URL}/user/endoresment-list/`).then((response) =>{
+            if(response.data) {
+                const data = response.data
+                setEndoresment(data);
+            }
+        }).catch((error) => {
+            setEndoresment([]);
+        });
     }
 
     useEffect(() =>{
-        fetchEndoresment()
+        fetchEndoresment();
     },[]);
 
     return (

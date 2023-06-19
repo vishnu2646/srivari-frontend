@@ -2,14 +2,14 @@ import { useState } from "react";
 import axios  from "axios";
 import { useNavigate } from "react-router-dom";
 
-export const Login = () => {
+export const Login = ({looged, setLogged}) => {
 
     const [loginState, setLoginState] = useState({
         email:"",
         password:""
     });
 
-    const [loginError, setLoginError] = useState();
+    const [loginError, setLoginError] = useState<undefined|string>();
 
     const navigate = useNavigate();
    
@@ -21,7 +21,6 @@ export const Login = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleSubmit = (e:any) => {
         e.preventDefault();
-        console.log(process.env.REACT_APP_BASE_URL);
         
         axios.post(`${process.env.REACT_APP_BASE_URL}/user/login`,{
             email:loginState.email,
@@ -30,11 +29,12 @@ export const Login = () => {
             if (res.data.token.access && res.data.token.refresh) {
                 localStorage.setItem("ACCESS_TOKEN",res.data.token.access)
                 localStorage.setItem("REFRESH_TOKEN",res.data.token.refresh)
-                navigate('/customer-detail');
+                setLogged(!looged);
+                navigate('/');
             }
         }).catch((err) => {
-            if(err){
-                setLoginError(err.response.data.errors);
+            if(err){   
+                setLoginError("error");
             }
         })
     }

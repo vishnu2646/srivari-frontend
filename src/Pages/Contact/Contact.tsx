@@ -32,9 +32,9 @@ export const Contact = () => {
         setEnquiryData({...enquiryData, [e.target.name]: e.target.value});       
     }
 
-    const handleSubmit = async (event: any) => {
+    const handleSubmit = async (event: any): Promise<void> => {
         event.preventDefault();
-        
+
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/enquiry-create/`, {
             date: enquiryData.date,
             clientname: enquiryData.clientname,
@@ -53,7 +53,7 @@ export const Contact = () => {
         const message = await response.data;
         setEnquiryMessage(message);
         if(response.status === 200) {
-            toast.success("Your data is submitted and " + message);
+            toast.success("Your data is submitted and " + enquiryMessage);
         }
         dialogRef.current?.close();
     }
@@ -123,8 +123,8 @@ export const Contact = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" formMethod="dialog">close</button>
-                                <button type="submit" className="form-submit" onClick={handleSubmit}>Submit</button>
+                                <button type="submit" formMethod="dialog" style={{ cursor: 'pointer' }}>close</button>
+                                <button type="submit" className="form-submit" style={{ cursor: 'pointer' }} onClick={handleSubmit}>Submit</button>
                             </form>
                         </dialog>
                         <button className="faq">Faq'<span>s</span></button>

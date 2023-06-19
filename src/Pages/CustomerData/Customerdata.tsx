@@ -27,7 +27,7 @@ export const Customerdata = () => {
     const navigate = useNavigate();
 
     const fetchEnquiryData = async() => {
-        const response = await axios.get('http://127.0.0.1:8000/api/user/enquiry-list/', {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/enquiry-list/`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
             }
@@ -37,31 +37,38 @@ export const Customerdata = () => {
     }
 
     const checkUserIsAdmin = async () => {
-        const response = await axios.get('http://127.0.0.1:8000/api/user/is-admin-user/', {
+        await axios.get(`${process.env.REACT_APP_BASE_URL}/user/is-admin-user/`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
             }
-        });
-        const data = await response.data.admin;
-        setIsAdminUser(data);
-        if(!data) {
+        }).then(response => {
+            if(response.data.admin) {
+                const data = response.data.admin;
+                setIsAdminUser(data);
+                if(!data) {
+                    navigate('/');
+                }
+            }
+        }).catch(error => {
+            console.log("error", error);
             navigate('/');
-        }
+        });
+        
     }
 
     useEffect(() => {
-        fetchEnquiryData();
         checkUserIsAdmin();
+        fetchEnquiryData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     const handleDelete = async (id: number) => {
-        await axios.delete(`http://127.0.0.1:8000/api/user/enquiry-delete/${id}`, {
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/user/enquiry-delete/${id}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
             }
-        })
-        alert("Data Deleted")
+        });
+        alert("Data Deleted");
         fetchEnquiryData();
     }
 
@@ -71,7 +78,7 @@ export const Customerdata = () => {
 
     const CustomerData = () => {
         return (
-            <div className="customer-data-wrapper" style={{ flexDirection: 'column' }}>
+            <div className="customer-data-wrapper" style={{ flexDirection: 'column',minHeight:"100vh" }}>
                 <h2 className="center-text">Customer data</h2>
                 <DownloadTableExcel
                     filename="CustomerDetails"

@@ -1,7 +1,55 @@
-/* eslint-disable jsx-a11y/iframe-has-title */
+import { useEffect, useState } from 'react';
 import location from '../../assets/location.png';
+import axios from 'axios';
+
+interface IBlock {
+    title: string,
+    points: string
+}
+
+interface IContent {
+    content: string,
+    quote: string
+}
 
 export const About = () => {
+    const [blockData, setBlockData] = useState<IBlock[]>([]);
+    const [contentData, setContentData] = useState<IContent[]>([]);
+    const [blockError, setBlockError] = useState()
+    const [contentError, setContentError] = useState()
+
+    const getBlockData = () => {
+        axios.get(`${process.env.REACT_APP_BASE_URL}/user/about-block/`).then((response) => {
+            if(response.data) {
+                setBlockData(response.data);
+            }
+        }).catch((err) => {
+            setBlockError(err);
+        });
+    }
+
+    const getContentData = () => {
+        axios.get(`${process.env.REACT_APP_BASE_URL}/user/about-content/`).then((response) => {
+            if(response.data) {
+                setContentData(response.data);
+            }
+        }).catch((err) => {
+            setContentError(err);
+        });
+    }
+
+    useEffect(() => {
+        getBlockData();
+        getContentData();
+    }, []);
+
+    if(blockError || contentError) {
+        return (
+            <p>Something Went Worng. Please contact Adminsitator.</p>
+        )
+    }
+    
+
     return (
         <div className="about-page-container" id='about'>
             <h1><span>A</span>bout us</h1>
@@ -11,26 +59,20 @@ export const About = () => {
                     <div className="about-page-left-content">
                         <div className="blocks">
                             <div className="row1">
-                                <div className="block1"></div>
                                 <div className="block2"></div>
                             </div>
-                            <div className="row2">
-                                <div className="block3"></div>
-                                <div className="block4">20+</div>
-                                <div className="block5">Projects</div>
-                            </div>
-                            <div className="row3">
-                                <div className="block6">Experience</div>
-                                <div className="block7">20+</div>
-                                <div className="block8"></div>
-                            </div>
-                            <div className="row4">
-                                <div className="block3"></div>
-                                <div className="block4">16+</div>
-                                <div className="block5">Tie ups</div>
-                            </div>
+                            {
+                                blockData.map((data, index) => {
+                                    return (
+                                        <div className="row3" key={index}>
+                                            <div className="block6">{data.title}</div>
+                                            <div className="block7">{data.points}</div>
+                                            <div className="block8"></div>
+                                        </div>
+                                    )
+                                })
+                            }
                             <div className="row5">
-                                <div className="block1"></div>
                                 <div className="block2"></div>
                             </div>
                         </div>
@@ -38,7 +80,9 @@ export const About = () => {
                     <div className="about-page-right-content">
                         <div className="map">
                             <iframe
-                                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=srivari%20suvarna%20subikshaa%20Homes,%20Hosur+(srivari%20suvarna%20subikshaa%20Homes)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+                                title="map"
+                                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=srivari%20suvarna%20subikshaa%20Homes,%20Hosur+(srivari%20suvarna%20subikshaa%20Homes)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                            >
                                 <a href="https://www.maps.ie/distance-area-calculator.html">
                                     measure area map
                                 </a>
@@ -50,10 +94,16 @@ export const About = () => {
                         </div>
                     </div>
                 </div>
-                <div className="about-content">
-                    <p><b>Srivari Deveopers</b> have been in industry from 20+ years. Our principals have deep roots in real estate ownership that span more than Eight Decades and understand the value of property ownership. We have solved many challenging and complex transactions to the satisfaction of the clients. We believe in a strict Code of Ethics. We believe in integrity, commitment to excellence, a professional attitude, and personalized care.</p>
-                    <p>WE BELIEVE WE CAN ACCOMPLISH YOUR DREAM WITH COMMITMENT, RESOURCES AND PASSION AND GET THE JOB DONE."</p>
-                </div>
+                {
+                    contentData.map((d ,index) => {
+                        return (
+                            <div className="about-content" key={index}>
+                                <div dangerouslySetInnerHTML={{ __html: d.content }}></div>
+                                <div dangerouslySetInnerHTML={{ __html: d.quote }}></div>
+                            </div>
+                        )
+                    })
+                }
             </div>
         </div>
     );

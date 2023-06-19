@@ -2,7 +2,7 @@ import axios from 'axios';
 import Logo1 from '../../assets/logo.png';
 import { useState, useEffect } from 'react';
 
-export const Navbar = () => {
+export const Navbar = ({looged, setLogged}) => {
     const [active, setActive] = useState('');
     const [width, setWidth] = useState(0);
     const [isAdminUser, setIsAdminUser] = useState(false);
@@ -32,23 +32,33 @@ export const Navbar = () => {
     ];
 
     const checkUserIsAdmin = async () => {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/is-admin-user/`, {
+        await axios.get(`${process.env.REACT_APP_BASE_URL}/user/is-admin-user/`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
             }
+        }).then(response => {
+            if(response.data.admin) {
+                const data = response.data.admin;
+                setIsAdminUser(data);
+            }
+        }).catch(error => {
+            setIsAdminUser(false);
         });
-        const data = await response.data.admin;
-        setIsAdminUser(data);
     }
 
     const isUserLoggedIn = async () => {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/is-user-logged-in/`, {
+        await axios.get(`${process.env.REACT_APP_BASE_URL}/user/is-user-logged-in/`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
             }
+        }).then((response) => {
+            if (response.data) {
+                const data = response.data.LoggedIn;
+                setIsUserLogged(data);
+            }
+        }).catch((error) => {
+            setIsUserLogged(false);
         });
-        const data = await response.data.LoggedIn;
-        setIsUserLogged(data);
     }
 
     const logoutUser = () => {
@@ -58,7 +68,7 @@ export const Navbar = () => {
     useEffect(() => {
         checkUserIsAdmin();
         isUserLoggedIn();
-    },[])  
+    },[looged])  
 
     useEffect(() => {
         setActive(LinkArr[0].link);
@@ -78,7 +88,8 @@ export const Navbar = () => {
                             onClick={() => setActive(link.title)}
                             className={`${active === link.title && 'active'}`}
                         >
-                            <a href={link.link} className={`${active === link.title && 'active'}`}>{link.title}</a>
+                            {/* <Link to={link.link} spy={true} smooth={true} offset={-10} duration={500} className={`${active === link.title ? 'active' : ''}`}>{link.title}</Link> */}
+                            <a href={`${process.env.REACT_APP_FROTEND_URL}/${link.link}`} rel="noopener noreferrer external" className={`${active === link.title && 'active'}`}>{link.title}</a>
                         </li>
                     )
                 })}

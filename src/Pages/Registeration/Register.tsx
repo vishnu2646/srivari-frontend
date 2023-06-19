@@ -46,7 +46,7 @@ export const Register = () => {
     return (
         <div>
             <div className="Login-wrapper">
-                <h1>register PAGE</h1>
+                <h1>Register Page</h1>
                 <form autoComplete="off">
                     <div className="form-group">
                         <label htmlFor="email">Email</label><br />

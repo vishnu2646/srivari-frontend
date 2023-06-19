@@ -1,16 +1,17 @@
-import { CaroselItem } from "./CaroselItem";
+import { HomeCaroselItem } from "./HomeCaroselItem";
 import { useState } from "react";
 
 interface Item {
-    images: string;
-    title: string;
+    id: string;
+    img: string;
+    imgname: string
 }
 
 type Props = {
     items: Item[]
 }
 
-export const Carosel = (props: Props) => {
+export const HomeCarosel = (props: Props) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const updateIndex = (newIndex: number) => {
@@ -22,30 +23,32 @@ export const Carosel = (props: Props) => {
 
         setActiveIndex(newIndex);
     }
-
+    
     return (
         <div className="carousel">
             <div className="inner" style={{transform: `translate(-${activeIndex * 100}%)`}}>
                 {props.items.map((item, index) => {
                     return (
-                        <CaroselItem key={index} item={item.images}/>
+                        <HomeCaroselItem key={index} item={item.img}/>
                     )
                 })}
                 
             </div>
             <div className="indecator-outer">
+                <p className="control-left" onClick={()=> updateIndex(activeIndex - 1)}>{'<'}</p>
                 {props.items.map((item, index) => {
                     return (
-                        <div 
+                        <div
                             className={`indecator ${index === activeIndex && 'active'}`} 
                             key={index} 
                             onClick={() => { 
-                                updateIndex(index);
+                                updateIndex(index)
                             }}
                         >
                         </div>
                     )
                 })}
+                <p className="control-right" onClick={()=> updateIndex(activeIndex + 1)}>{'>'}</p>
             </div>
         </div>
     );
