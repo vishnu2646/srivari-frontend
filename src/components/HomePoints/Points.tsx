@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable no-useless-concat */
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 interface IHomePoints {
@@ -13,6 +14,8 @@ export const Points = () => {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/user/home-points/`).then((response) => {
             if(response.data) {
+                console.log(response.data);
+                
                 setData(response.data);
             }
         }).catch((err) => {
@@ -34,7 +37,7 @@ export const Points = () => {
                     return (
                         <div key={index}>
                             <span className="home-points-icon">
-                                <img src={d.icon} alt="badge" />
+                                <img src={`${process.env.REACT_APP_BASE_URL_FOR_IMAGES}`+`${d.icon}`} alt="badge" />
                             </span>
                             <span className="home-points-description">{d.description}</span>
                         </div>

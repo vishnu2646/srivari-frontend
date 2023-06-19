@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 import { useEffect, useState } from 'react';
 import arraw from '../../assets/upcoming.png';
 import axios from 'axios';
@@ -35,7 +36,7 @@ export const Endoresments = () => {
                             <div 
                                 className="endoresment-image" 
                                 style={{ 
-                                    backgroundImage: `url(${item.image})`, 
+                                    backgroundImage: `url(${`${process.env.REACT_APP_BASE_URL_FOR_IMAGES}`+ `${item.image}`})`, 
                                     height: "250px", 
                                     width: '250px', 
                                     backgroundSize: "contain", 

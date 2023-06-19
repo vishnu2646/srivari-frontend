@@ -89,7 +89,7 @@ export const Navbar = ({looged, setLogged}) => {
                             className={`${active === link.title && 'active'}`}
                         >
                             {/* <Link to={link.link} spy={true} smooth={true} offset={-10} duration={500} className={`${active === link.title ? 'active' : ''}`}>{link.title}</Link> */}
-                            <a href={`${process.env.REACT_APP_FROTEND_URL}/${link.link}`} rel="noopener noreferrer external" className={`${active === link.title && 'active'}`}>{link.title}</a>
+                            <a href={`${link.link}`} rel="noopener noreferrer external" className={`${active === link.title && 'active'}`}>{link.title}</a>
                         </li>
                     )
                 })}

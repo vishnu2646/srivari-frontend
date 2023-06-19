@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 type Props = {
     item: string;
 };
@@ -5,7 +6,7 @@ type Props = {
 export const HomeCaroselItem = (props: Props) => {
     return (
         <div className="carousel-item">
-            <img src={props.item} alt="carosule" className="carosule-img" style={{ height: "430px" }}/>
+            <img src={`${process.env.REACT_APP_BASE_URL_FOR_IMAGES}`+`${props.item}`} alt="carosule" className="carosule-img" style={{ height: "430px" }}/>
         </div>
     );
 };
