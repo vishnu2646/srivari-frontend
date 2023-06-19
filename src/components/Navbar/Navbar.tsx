@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import axios from 'axios';
 import Logo1 from '../../assets/logo.png';
 import { useState, useEffect } from 'react';
@@ -89,7 +90,23 @@ export const Navbar = ({looged, setLogged}) => {
                             className={`${active === link.title && 'active'}`}
                         >
                             {/* <Link to={link.link} spy={true} smooth={true} offset={-10} duration={500} className={`${active === link.title ? 'active' : ''}`}>{link.title}</Link> */}
-                            <a href={`${link.link}`} rel="noopener noreferrer external" className={`${active === link.title && 'active'}`}>{link.title}</a>
+                            <a 
+                                onClick={(e) =>{
+                                    e.preventDefault();
+                                    if(window.location.pathname.includes('/login') || window.location.pathname.includes('/customer-detail')) {
+                                        window.location.replace(`/${link.link}`);
+                                    } else {
+                                        window.location.replace(`${link.link}`);
+                                    }
+                                }}
+                                style={{
+                                    cursor: 'pointer',
+                                }}
+                                rel="noopener noreferrer external" 
+                                className={`${active === link.title && 'active'}`}
+                            >
+                                {link.title}
+                            </a>
                         </li>
                     )
                 })}
@@ -133,7 +150,22 @@ export const Navbar = ({looged, setLogged}) => {
                                 }}
                                 className={`${active === link.title && 'active'}`}
                             >
-                                <a href={link.link} className={`${active === link.title && 'active'}`}>{link.title}</a>
+                                <a
+                                    onClick={(e) =>{
+                                        e.preventDefault();
+                                        if(window.location.pathname.includes('/login') || window.location.pathname.includes('/customer-detail')) {
+                                            window.location.replace(`/${link.link}`)
+                                        } else {
+                                            window.location.replace(`${link.link}`)
+                                        }
+                                    }}
+                                    style={{
+                                        cursor: 'pointer',
+                                    }}
+                                    className={`${active === link.title && 'active'}`}
+                                >
+                                    {link.title}
+                                </a>
                             </li>
                         )
                     })}

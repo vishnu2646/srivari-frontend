@@ -14,8 +14,6 @@ export const Points = () => {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/user/home-points/`).then((response) => {
             if(response.data) {
-                console.log(response.data);
-                
                 setData(response.data);
             }
         }).catch((err) => {
